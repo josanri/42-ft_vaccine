@@ -1,4 +1,6 @@
-class MySQLInjection:
+from sql_injection_engine import SQLInjectionEngine
+
+class MySQLInjection(SQLInjectionEngine):
     def database_names() -> str:
         return "SHOW DATABASES;"
 
