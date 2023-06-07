@@ -1,18 +1,20 @@
-class SQLInjectionEngine:
+from abc import ABC
+
+class SQLInjectionEngine(ABC):
     def __init__(self) -> None:
         pass
 
-    def database_names() -> str:
+    def database_names(self) -> str:
         pass
 
-    def version()  -> str:
+    def version(self)  -> str:
         pass
 
-    def tables() -> str:
+    def tables(self) -> str:
         pass
 
-    def column_names(table_name = None):
+    def column_names(self, table_name = None):
         pass
 
-    def dump_table(table:str):
+    def dump_table(self, table:str):
         return f"select * from {table}"

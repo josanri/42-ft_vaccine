@@ -4,16 +4,16 @@ class MySQLInjection(SQLInjectionEngine):
     def __init__(self) -> None:
         super().__init__()
 
-    def database_names() -> str:
+    def database_names(self) -> str:
         return "SHOW DATABASES;"
 
-    def version()  -> str:
+    def version(self)  -> str:
         return "SHOW VARIABLES LIKE 'version';"
 
-    def tables() -> str:
+    def tables(self) -> str:
         return "SELECT table_name FROM information_schema.tables;"
 
-    def column_names(table_name = None):
+    def column_names(self, table_name = None):
         if table_name == None:
             return "SHOW `columns` FROM *;"
         else:
