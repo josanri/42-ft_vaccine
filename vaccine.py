@@ -9,10 +9,10 @@ if __name__ == "__main__":
                         help="specify archive file")
     parser.add_argument('-X',
                         action='store',
-                        default='GET',
-                        const='GET',
+                        default='get',
+                        const='get',
                         nargs='?',
-                        choices=["GET", "POST", "PUT", "DELETE"],
+                        choices=["get", "post"],
                         help="HTTP method for executing the sql injection")
     parser.add_argument('URL',
                         action='store',
