@@ -10,10 +10,17 @@ from src.scraping.scrape_error import ScrapeError
 
 @dataclasses.dataclass
 class InputInfo:
-    method: str
     type: str
+    id: str
     name: str
     value: str
+
+
+@dataclasses.dataclass
+class FormInfo:
+    method: str
+    action: str
+    inputs: typing.List[InputInfo]
 
 
 class FormSpider:
@@ -24,17 +31,17 @@ class FormSpider:
             self.url = url
         else:
             raise ScrapeError('URL is not valid')
-        self.__form_info = None
+        self.__forms: typing.Optional[typing.List[FormInfo]] = None
 
-    def form_info(self) -> typing.List[InputInfo]:
-        if self.__form_info:
-            return self.__form_info
+    def form_info(self) -> typing.List[FormInfo]:
+        if self.__forms is not None:
+            return self.__forms
         try:
             html_text = self.__get_content()
             self.__get_info(html_text)
         except ScrapeError:
             print(f'Warning: URL "{self.url}" is not valid')
-        return self.__form_info
+        return self.__forms
 
     def __get_content(self) -> str:
         try:
@@ -48,27 +55,16 @@ class FormSpider:
 
     def __get_info(self, html: str) -> None:
         soup = bs4.BeautifulSoup(html, 'lxml')
-        self.__form_info = list()
+        self.__forms = list()
         for form_tag in soup.find_all('form'):
-            method = 'get'
-            if form_tag.has_attr('method'):
-                method = form_tag['method'].lower()
+            method = form_tag.get('method').lower()
+            action = urlparse.urljoin(self.url, form_tag.get('action'))
+
+            form = FormInfo(method, action, list())
             for input_tag in form_tag.find_all('input'):
-                input_type = None
-                if input_tag.has_attr('type'):
-                    input_type = input_tag['type']
-                input_name = None
-                if input_tag.has_attr('name'):
-                    input_name = input_tag['name']
-                input_value = None
-                if input_tag.has_attr('value'):
-                    input_value = input_tag['value']
-                self.__form_info.append(InputInfo(method, input_type, input_name, input_value))
-
-
-URL_TEST = 'https://candidatura.42malaga.com/users/sign_up'
-
-if __name__ == '__main__':
-    spider = FormSpider(URL_TEST)
-    info = spider.form_info()
-    print(info)
+                input_type = input_tag.get('type')
+                input_id = input_tag.get('id')
+                input_name = input_tag.get('name')
+                input_value = input_tag.get('value')
+                form.inputs.append(InputInfo(input_type, input_id, input_name, input_value))
+            self.__forms.append(form)
