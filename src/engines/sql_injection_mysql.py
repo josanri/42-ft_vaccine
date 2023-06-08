@@ -1,8 +1,13 @@
 from sql_injection_engine import SQLInjectionEngine
 
 class MySQLInjection(SQLInjectionEngine):
+    injection_prefix = "z#-+"
+
     def __init__(self) -> None:
         super().__init__()
+
+    def identify(self) -> str:
+        return "EXISTS(select TABLE_NAME from information_schema.tables WHERE TABLE_NAME like 'INNODB%')"
 
     def database_names(self) -> str:
         return "SHOW DATABASES"

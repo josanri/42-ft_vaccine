@@ -3,6 +3,9 @@ from abc import ABC
 class SQLInjectionEngine(ABC):
     def __init__(self) -> None:
         pass
+    
+    def identify(self) -> str:
+        pass
 
     def database_names(self) -> str:
         pass
