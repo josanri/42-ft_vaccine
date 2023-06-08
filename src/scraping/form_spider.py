@@ -24,7 +24,7 @@ class FormInfo:
 
 
 class FormSpider:
-    def __init__(self, url):
+    def __init__(self, url: str):
         url_parsed = urlparse.urlparse(url)
         self.__domain = url_parsed.netloc
         if url_parsed.scheme in ('http', 'https') and url_parsed.netloc:
@@ -36,11 +36,8 @@ class FormSpider:
     def form_info(self) -> typing.List[FormInfo]:
         if self.__forms is not None:
             return self.__forms
-        try:
-            html_text = self.__get_content()
-            self.__get_info(html_text)
-        except ScrapeError:
-            print(f'Warning: URL "{self.url}" is not valid')
+        html_text = self.__get_content()
+        self.__get_info(html_text)
         return self.__forms
 
     def __get_content(self) -> str:
@@ -57,10 +54,9 @@ class FormSpider:
         soup = bs4.BeautifulSoup(html, 'lxml')
         self.__forms = list()
         for form_tag in soup.find_all('form'):
-            method = form_tag.get('method').lower()
+            method = form_tag.get('method')
             action = urlparse.urljoin(self.url, form_tag.get('action'))
-
-            form = FormInfo(method, action, list())
+            form = FormInfo(method.lower() if method else 'get', action, list())
             for input_tag in form_tag.find_all('input'):
                 input_type = input_tag.get('type')
                 input_id = input_tag.get('id')
