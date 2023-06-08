@@ -5,13 +5,13 @@ class PostgreSQL(SQLInjectionEngine):
         super().__init__()
 
     def database_names(self) -> str:
-        return "SELECT datname FROM pg_catalog.pg_database;"
+        return "SELECT datname FROM pg_catalog.pg_database"
     
     def version(self):
-        return "SELECT version();"
+        return "SELECT version()"
 
     def tables(self) -> str:
-        return "SELECT table_name FROM information_schema.tables;"
+        return "SELECT table_name FROM information_schema.tables"
     
     def column_names(self, table_name = None):
         if table_name == None:
