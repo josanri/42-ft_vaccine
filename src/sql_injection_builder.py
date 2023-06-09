@@ -2,11 +2,17 @@ class SQLInjectionBuilder:
     def __init__(self, engine) -> None:
         self.engine = engine
 
-    def or_boolean_injection() -> None:
+    def or_boolean_injection_quoted() -> None:
         """
         Useful for database condition checks
         """
-        return f"\' OR 1='1; -- "
+        return f"\' OR 1=\"1\"; -- "
+
+    def or_boolean_injection_unquoted() -> None:
+        """
+        Useful for database condition checks
+        """
+        return f"\' OR 1=1; -- "
 
     def false_and_boolean_injection(subquery: str) -> None:
         """
