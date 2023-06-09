@@ -4,6 +4,9 @@ class PostgreSQL(SQLInjectionEngine):
     def __init__(self) -> None:
         super().__init__()
 
+    def identify(self) -> str:
+        return "EXISTS(SELECT datname FROM pg_database)"
+
     def database_names(self) -> str:
         return "SELECT datname FROM pg_catalog.pg_database"
     
