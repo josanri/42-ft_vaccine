@@ -1,7 +1,4 @@
-class SQLInjectionBuilder:
-    def __init__(self, engine) -> None:
-        self.engine = engine
-
+class SQLInjectionInput:
     def or_boolean_injection_quoted() -> None:
         """
         Useful for database condition checks
@@ -31,4 +28,4 @@ class SQLInjectionBuilder:
         Returns a possible way of getting to the first user on the database
         It usually means the administrator of the database
         """
-        return SQLInjectionBuilder.login_user(1)
+        return SQLInjectionInput.login_user(1)

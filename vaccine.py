@@ -18,4 +18,4 @@ if __name__ == "__main__":
                         action='store',
                         help="URL where injections will be done")
     args = parser.parse_args()
-    SQLInjector(args.output, args.X)
+    SQLInjector(args.url, args.output, args.X).inject()
