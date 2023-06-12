@@ -1,4 +1,4 @@
-from sql_injection_engine import SQLInjectionEngine
+from src.engines.sql_injection_engine import SQLInjectionEngine
 
 class SQLInjectionEnginePostgreSQL(SQLInjectionEngine):
     def __init__(self) -> None:
