@@ -41,7 +41,7 @@ class SQLInjector:
                     if input.value != None:
                         dummy_value = input.value
                     else:
-                        default_values.get(input.type, None)
+                        dummy_value = default_values.get(input.type, None)
                     data[input.name] = dummy_value
             response = self.http_request_inject(action, data)
             if 200 <= response.status_code <= 300:
