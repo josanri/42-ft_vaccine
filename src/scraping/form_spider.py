@@ -7,7 +7,6 @@ import requests
 
 from src.scraping.scrape_error import ScrapeError
 
-
 @dataclasses.dataclass
 class InputInfo:
     type: str
@@ -22,6 +21,24 @@ class FormInfo:
     action: str
     inputs: typing.List[InputInfo]
 
+COMMON_GET_INPUTS = (
+    InputInfo('number', 'id', 'id', 1),
+    InputInfo('number', 'identifier', 'identifier', 1),
+    InputInfo('text', 'user', 'user', "example"),
+    InputInfo('number', 'name', 'name', 3),
+    InputInfo('email', 'email', 'email', "valid@gmmail.com"),
+    InputInfo('tel', 'phone', 'phone', "123-456-7890"),
+    InputInfo('text', 'city', 'city', "Malaga"),
+    InputInfo('text', 'state', 'state', "ES"),
+    InputInfo('text', 'country', 'country', "Spain"),
+    InputInfo('date', 'date', 'date', "2022-10-11"),
+    InputInfo('text', 'address', 'address', "Calle Marques de Larios"),
+    InputInfo('number', 'time', 'time', "09:45"),
+    InputInfo('number', 'updated', 'updated', 1),
+    InputInfo('number', 'accessed', 'accessed', 1),
+    InputInfo('number', 'created', 'created', 1),
+    InputInfo('number', 'event', 'event', 1),
+)
 
 class FormSpider:
     def __init__(self, url: str):
