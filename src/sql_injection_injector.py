@@ -38,7 +38,11 @@ class SQLInjector:
             data[input_chosen.name] = "Try sql injection here"
             for input in inputs:
                 if input != input_chosen:
-                    data[input.name] = default_values.get(input.type, None)
+                    if input.value != None:
+                        dummy_value = input.value
+                    else:
+                        default_values.get(input.type, None)
+                    data[input.name] = dummy_value
             response = self.http_request_inject(action, data)
             if 200 <= response.status_code <= 300:
                 print(f"{response.status_code} - Valid injection with: {data}")
