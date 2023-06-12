@@ -6,5 +6,11 @@ class SQLInjectorGetVersionState(SQLInjectorState):
     def __init__(self, sql_injector) -> None:
         super().__init__(sql_injector)
 
+    def isEnd(self):
+        return True
+
     def next(self):
         self.sql_injector.state = SQLInjectorGetDatabaseNames()
+
+    def inject(self, action, input_chosen, inputs):
+        super().injection(action, input_chosen, inputs, "sql_injection_string")

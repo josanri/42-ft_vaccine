@@ -9,7 +9,14 @@ class SQLInjectorDatabaseEngineState(SQLInjectorState):
         super().__init__(sql_injector)
 
     def next(self):
-        if True:
+        if self.engine == "mysql":
             self.sql_injector.state = SQLInjectorGetVersionState(SQLInjectionEngineMySQL())
-        else:
+        elif self.engine == "postgres":
             self.sql_injector.state = SQLInjectorGetVersionState(SQLInjectionEnginePostgreSQL())
+    
+    def inject(self, action, input_chosen, inputs):
+        success = super().injection(action, input_chosen, inputs, "sql_injection_string")
+        if success != None:
+            self.engine = success
+            self.next()
+            self.sql_injector.state.inject(action, input_chosen, inputs)

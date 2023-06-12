@@ -7,3 +7,6 @@ class SQLInjectorGetDatabaseNames(SQLInjectorState):
 
     def next(self):
         self.sql_injector.state = SQLInjectorDumpState()
+
+    def inject(self, action, input_chosen, inputs):
+        super().injection(action, input_chosen, inputs, "sql_injection_string")
