@@ -23,7 +23,8 @@ class SQLInjector:
             raise Exception("Could not find any form to inject data")
 
         if self.method == "get":
-            self.try_inject(self.url, COMMON_GET_INPUTS)
+            for inputs in COMMON_GET_INPUTS:
+                self.try_inject(self.url, inputs)
         for form in self.forms:
             self.try_inject(form.action, form.inputs)
 
