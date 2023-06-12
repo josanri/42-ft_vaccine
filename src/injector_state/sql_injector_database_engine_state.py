@@ -1,14 +1,15 @@
-from src.injector_state.sql_injector_state import SQLInjectorState
-from src.injector_state.sql_injector_version_state import SQLInjectorGetVersionState
+import logging
 
 from src.engines.sql_injection_mysql import SQLInjectionEngineMySQL
 from src.engines.sql_injection_postgres import SQLInjectionEnginePostgreSQL
+from src.injector_state.sql_injector_state import SQLInjectorState
+from src.injector_state.sql_injector_version_state import SQLInjectorGetVersionState
 
-import logging
 
 class SQLInjectorDatabaseEngineState(SQLInjectorState):
     def __init__(self, sql_injector) -> None:
         super().__init__(sql_injector)
+        self.engine = None
 
     def next(self):
         if self.engine == "mysql":
@@ -18,10 +19,10 @@ class SQLInjectorDatabaseEngineState(SQLInjectorState):
         else:
             raise NotImplementedError(f"{self.engine} - Engine not implemented")
         return self.sql_injector.state
-    
+
     def inject(self, action, input_chosen, inputs):
         engine = super().injection(action, input_chosen, inputs, "sql_injection_string")
-        if engine != None:
+        if engine is not None:
             logging.info(f"Database Engine: {engine}")
             self.engine = engine
             self.next().inject(action, input_chosen, inputs)

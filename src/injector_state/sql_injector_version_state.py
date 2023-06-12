@@ -1,6 +1,8 @@
-from src.injector_state.sql_injector_state import SQLInjectorState
-from src.injector_state.sql_injector_database_names import SQLInjectorGetDatabaseNames
 import logging
+
+from src.injector_state.sql_injector_database_names import SQLInjectorGetDatabaseNames
+from src.injector_state.sql_injector_state import SQLInjectorState
+
 
 class SQLInjectorGetVersionState(SQLInjectorState):
     def __init__(self, sql_injector) -> None:
@@ -15,6 +17,6 @@ class SQLInjectorGetVersionState(SQLInjectorState):
 
     def inject(self, action, input_chosen, inputs):
         version = super().injection(action, input_chosen, inputs, "sql_injection_string")
-        if version != None:
+        if version is not None:
             logging.info(f"Version: {version}")
             self.next().inject(action, input_chosen, inputs)

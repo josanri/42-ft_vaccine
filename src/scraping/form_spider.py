@@ -7,6 +7,7 @@ import requests
 
 from src.scraping.scrape_error import ScrapeError
 
+
 @dataclasses.dataclass
 class InputInfo:
     type: str
@@ -20,6 +21,7 @@ class FormInfo:
     method: str
     action: str
     inputs: typing.List[InputInfo]
+
 
 COMMON_GET_INPUTS = (
     [InputInfo('number', 'id', 'id', 1)],
@@ -39,6 +41,7 @@ COMMON_GET_INPUTS = (
     [InputInfo('number', 'created', 'created', 1)],
     [InputInfo('number', 'event', 'event', 1)],
 )
+
 
 class FormSpider:
     def __init__(self, url: str):
