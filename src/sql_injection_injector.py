@@ -9,9 +9,15 @@ import logging
 
 class SQLInjector:
     supported_methods = ("get", "post")
-    def __init__(self, url, output_file ="results.txt", method = "get") -> None:
+    def __init__(self, url, output_file , method) -> None:
+        if output_file == None:
+            output_file = "results.txt"
+        if method == None:
+            method = "get"
         if method in SQLInjector.supported_methods:
-            logging.basicConfig(filename=output_file, format='%(message)s')
+            print(output_file)
+            logging.basicConfig(filename=output_file, level=logging.INFO, format="%(message)s")
+            print("Logging set")
             self.url = url
             self.state = SQLInjectorDatabaseEngineState(self)
             self.method = method
@@ -37,20 +43,23 @@ class SQLInjector:
                           "number": 5}
         
         for input_chosen in inputs:
+            if input_chosen.type == "submit":
+                continue
             data = {}
             data[input_chosen.name] = "Try sql injection here"
             for input in inputs:
-                if input != input_chosen:
-                    if input.value != None:
-                        dummy_value = input.value
-                    else:
-                        dummy_value = default_values.get(input.type, None)
-                    data[input.name] = dummy_value
+                if input == input_chosen or input.type == "submit":
+                    continue
+                if input.value != None:
+                    dummy_value = input.value
+                else:
+                    dummy_value = default_values.get(input.type, None)
+                data[input.name] = dummy_value
             response = self.http_request_inject(action, data)
             if 200 <= response.status_code <= 300:
-                print(f"{response.status_code} - Valid injection with: {data}")
+                logging.info(f"{response.status_code} - Valid injection with: {data}")
             else:
-                print(f"{response.status_code} - Could not resolve injection with {data}")
+                logging.error(f"{response.status_code} - Could not resolve injection with {data}")
             
     def http_request_inject(self, url, data = None):
         if self.method == "get":
