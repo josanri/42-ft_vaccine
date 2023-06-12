@@ -14,7 +14,7 @@ if __name__ == "__main__":
                         nargs='?',
                         choices=["get", "post"],
                         help="HTTP method for executing the sql injection")
-    parser.add_argument('URL',
+    parser.add_argument('url',
                         action='store',
                         help="URL where injections will be done")
     args = parser.parse_args()
