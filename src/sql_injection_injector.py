@@ -18,7 +18,7 @@ class SQLInjector:
             self.url = url
             self.state = SQLInjectorDatabaseEngineState(self)
             self.method = method
-            self.forms = [form for form in FormSpider(url).form_info() if form.method == method]
+            self.forms = [form for form in FormSpider(url).form_info() if form.method == self.method]
         else:
             raise NotImplementedError(f"{method} method is not supported")
 
