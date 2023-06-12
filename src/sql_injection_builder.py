@@ -33,7 +33,7 @@ class SQLInjectionBuilder:
         return self
 
     def and_false_condition(self) -> None:
-        self._add("' AND 1=\"2\"")
+        self._add(" AND 1=\"2\"")
         return self
 
     def union_subquery(self, subquery: str) -> None:
