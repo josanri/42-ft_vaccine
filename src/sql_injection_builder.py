@@ -20,14 +20,14 @@ class SQLInjectionBuilder:
         else:
             return self.final_string
 
-    def or_boolean_injection_quoted(self):
+    def or_boolean_one_equals_one_quoted(self):
         self._add("' OR 1=\"1\"")
 
-    def or_boolean_injection_unquoted(self):
+    def or_boolean_one_equals_one_unquoted(self):
         self._add("' OR 1=1")
 
-    def false_and_boolean_injection(self) -> None:
+    def and_false_condition(self) -> None:
         self._add("' AND 1=\"2\"")
 
-    def union_injection(self, subquery: str) -> None:
+    def union_subquery(self, subquery: str) -> None:
         self._add(f" UNION {subquery}")
