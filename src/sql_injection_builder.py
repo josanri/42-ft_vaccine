@@ -11,8 +11,8 @@ class SQLInjectionBuilder:
 
     def build(self):
         self._add("; -- ")
-        self.injection_string.getvalue()
-        return self.injection_string.getvalue()
+        self.final_string = self.injection_string.getvalue()
+        return self.final_string
     
     def __str__(self) -> str:
         if self.final_string == None:
