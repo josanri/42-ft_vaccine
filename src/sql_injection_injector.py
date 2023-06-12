@@ -29,9 +29,15 @@ class SQLInjector:
         if self.method == "get":
             for inputs in COMMON_GET_INPUTS:
                 self.state.inject(self.url, inputs)
+                if self.state.isEnd():
+                    break
         for form in self.forms:
-            for input_chosen in inputs:
-                self.state.inject(form.action, input_chosen, inputs)
+            for input_chosen in form.inputs:
+                self.state.inject(form.action, input_chosen, form.inputs)
+                if self.state.isEnd():
+                    break
+            if self.state.isEnd():
+                break
         if not self.state.isEnd():
             logging.warning(f"Could not retrieve all the data. See results on {self.output_file}")
         else:

@@ -7,6 +7,10 @@ class SQLInjectorGetDatabaseNames(SQLInjectorState):
 
     def next(self):
         self.sql_injector.state = SQLInjectorDumpState()
+        return self.sql_injector.state
 
     def inject(self, action, input_chosen, inputs):
-        super().injection(action, input_chosen, inputs, "sql_injection_string")
+        databases = super().injection(action, input_chosen, inputs, "sql_injection_string")
+        if databases != None:
+            self.engine = databases
+            self.next().inject(action, input_chosen, inputs)

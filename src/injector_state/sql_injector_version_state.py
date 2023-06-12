@@ -11,6 +11,10 @@ class SQLInjectorGetVersionState(SQLInjectorState):
 
     def next(self):
         self.sql_injector.state = SQLInjectorGetDatabaseNames()
+        return self.sql_injector.state
 
     def inject(self, action, input_chosen, inputs):
-        super().injection(action, input_chosen, inputs, "sql_injection_string")
+        version = super().injection(action, input_chosen, inputs, "sql_injection_string")
+        if version != None:
+            logging.info(f"Version: {version}")
+            self.next().inject(action, input_chosen, inputs)
