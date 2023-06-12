@@ -1,5 +1,11 @@
 from src.scraping.form_spider import FormSpider
 from src.sql_injection_builder import SQLInjectionBuilder
+from src.scraping.form_spider import COMMON_GET_INPUTS
+
+
+import requests
+import urllib.parse
+
 class SQLInjector:
     supported_methods = ("get", "post")
     def __init__(self, url, output_file ="results.txt", method = "get") -> None:
@@ -7,17 +13,44 @@ class SQLInjector:
             self.url = url
             self.output_file = output_file
             self.method = method
-            self.forms = FormSpider(url).form_info()
+            self.forms = [form for form in FormSpider(url).form_info() if form.method == method]
         else:
             raise NotImplementedError(f"{method} method is not supported")
 
-    def inject():
-        pass
+    def inject(self):
+        print(self.forms)
+        if self.method == "post" and len(self.forms) == 0:
+            raise Exception("Could not find any form to inject data")
 
-    def _try_error(self):
+        if self.method == "get":
+            self.try_inject(self.url, COMMON_GET_INPUTS)
         for form in self.forms:
-            if form.method == self.method:
-                pass
+            self.try_inject(form.action, form.inputs)
 
-    def _retrieve_data():
-        pass
+    def try_inject(self, action, inputs):
+        default_values = {None: "a",
+                          "text": "random text",
+                          "email": "valid@gmail.com",
+                          "number": 5}
+        
+        for input_chosen in inputs:
+            data = {}
+            data[input_chosen.name] = "Try sql injection here"
+            for input in inputs:
+                if input != input_chosen:
+                    data[input.name] = default_values.get(input.type, None)
+            response = self.http_request_inject(action, data)
+            if 200 <= response.status_code <= 300:
+                print(f"{response.status_code} - Valid injection with: {data}")
+            else:
+                print(f"{response.status_code} - Could not resolve injection with {data}")
+            
+    def http_request_inject(self, url, data = None):
+        if self.method == "get":
+            if data == None:
+                response = requests.get(url)
+            else:
+                response = requests.get(f"{url}?{urllib.parse.urlencode(data)}")
+        elif self.method == "post":
+            response = requests.post(url, data=data)
+        return response
