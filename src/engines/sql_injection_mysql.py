@@ -1,7 +1,6 @@
 from src.engines.sql_injection_engine import SQLInjectionEngine
 
 class SQLInjectionEngineMySQL(SQLInjectionEngine):
-    injection_prefix = "z#-+"
 
     def __init__(self) -> None:
         super().__init__()
@@ -20,9 +19,8 @@ class SQLInjectionEngineMySQL(SQLInjectionEngine):
 
     def column_names(self, table_name = None):
         if table_name == None:
-            return "SHOW `columns` FROM *"
-        else:
-            return f"SHOW `columns` FROM `{table_name}`"
+            raise AssertionError("Table name cannot be null")
+        return f"SHOW `columns` FROM `{table_name}`"
 
     def schemas_names():
         """

@@ -16,8 +16,7 @@ class SQLInjectionEnginePostgreSQL(SQLInjectionEngine):
     def tables(self) -> str:
         return "SELECT table_name FROM information_schema.tables"
     
-    def column_names(self, table_name = None):
+    def column_names(self, table_name):
         if table_name == None:
-            return f"SELECT * FROM information_schema.columns"
-        else:
-            return f"SELECT * FROM information_schema.columns WHERE table_name = '{table_name}'"
+            raise AssertionError("Table name cannot be null")
+        return f"SELECT * FROM information_schema.columns WHERE table_name = '{table_name}'"
