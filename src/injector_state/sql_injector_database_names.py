@@ -1,7 +1,7 @@
 from src.injector_state.sql_injector_state import SQLInjectorState
 from src.injector_state.sql_injector_dump_state import SQLInjectorDumpState
 
-class SQLInjectorGetVersionState(SQLInjectorState):
+class SQLInjectorGetDatabaseNames(SQLInjectorState):
     def __init__(self, sql_injector) -> None:
         super().__init__(sql_injector)
 

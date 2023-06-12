@@ -5,8 +5,8 @@ from src.engines.sql_injection_mysql import SQLInjectionEngineMySQL
 from src.engines.sql_injection_postgres import SQLInjectionEnginePostgreSQL
 
 class SQLInjectorDatabaseEngineState(SQLInjectorState):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, sql_injector) -> None:
+        super().__init__(sql_injector)
 
     def next(self):
         if True:
