@@ -3,9 +3,6 @@ from abc import ABC
 class SQLInjectionEngine(ABC):
     def __init__(self) -> None:
         pass
-    
-    def identify(self) -> str:
-        pass
 
     def database_names(self) -> str:
         pass
@@ -21,3 +18,6 @@ class SQLInjectionEngine(ABC):
 
     def dump_table(self, table:str):
         return f"select * from {table}"
+    
+    def identify() -> str:
+        pass

@@ -1,6 +1,5 @@
 from io import StringIO
 
-
 class SQLInjectionBuilder:
     def __init__(self) -> None:
         self.injection_string = StringIO()

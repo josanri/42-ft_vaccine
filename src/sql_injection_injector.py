@@ -1,17 +1,19 @@
 from src.scraping.form_spider import FormSpider
 from src.sql_injection_builder import SQLInjectionBuilder
 from src.scraping.form_spider import COMMON_GET_INPUTS
-
+from src.injector_state.sql_injector_database_engine_state import SQLInjectorDatabaseEngineState
 
 import requests
 import urllib.parse
+import logging
 
 class SQLInjector:
     supported_methods = ("get", "post")
     def __init__(self, url, output_file ="results.txt", method = "get") -> None:
         if method in SQLInjector.supported_methods:
+            logging.basicConfig(filename=output_file, format='%(message)s')
             self.url = url
-            self.output_file = output_file
+            self.state = SQLInjectorDatabaseEngineState(self)
             self.method = method
             self.forms = [form for form in FormSpider(url).form_info() if form.method == method]
         else:

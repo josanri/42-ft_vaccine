@@ -1,10 +1,10 @@
 from sql_injection_engine import SQLInjectionEngine
 
-class PostgreSQL(SQLInjectionEngine):
+class SQLInjectionEnginePostgreSQL(SQLInjectionEngine):
     def __init__(self) -> None:
         super().__init__()
 
-    def identify(self) -> str:
+    def identify() -> str:
         return "EXISTS(SELECT datname FROM pg_database)"
 
     def database_names(self) -> str:
