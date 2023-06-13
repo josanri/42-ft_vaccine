@@ -14,7 +14,10 @@ class SQLInjectionEngine(ABC):
     def version(self) -> str:
         pass
 
-    def tables(self) -> str:
+    def schema(self, columns) -> str:
+        pass
+
+    def tables(self, columns) -> str:
         pass
 
     def column_names(self, table_name=None):

