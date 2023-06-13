@@ -37,7 +37,7 @@ require_once("./utils.php");
 
   $id = $_GET['id'];
   // We need to be sloppy here :P
-  $sql = "select id,title,description,content,author_id from posts WHERE id = ".$id;
+  $sql = "select title,description,content,author_id from posts WHERE id = ".$id;
   $res = $conn->query($sql); // So I inadvertedly patched one of the holes...
   if (!$res) {
     printHeader(500);

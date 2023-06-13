@@ -30,7 +30,7 @@ if (!isset($_GET['id'])) {
 }
 
 $id = $_GET['id'];
-$sql = "select id,title,description,content,author_id from posts WHERE id = $id";
+$sql = "select title,description,content,author_id from posts WHERE id = $id";
 $res = pg_query($conn, $sql);
 if (!$res) {
     printHeader(500);
