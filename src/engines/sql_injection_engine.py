@@ -17,10 +17,13 @@ class SQLInjectionEngine(ABC):
     def schema(self, columns) -> str:
         pass
 
-    def tables(self, columns) -> str:
+    def tables(self, columns, schema_name) -> str:
         pass
 
     def column_names(self, table_name=None):
+        pass
+
+    def query(self, columns, schema_name, table, column_name) -> str:
         pass
 
     @staticmethod

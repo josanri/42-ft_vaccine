@@ -42,7 +42,7 @@ class SQLInjectorState(ABC):
             logging.info(f"\033[0;32m{response.status_code} - Valid injection with: {data}\033[0m")
             return response
         else:
-            logging.error(f"\033[1;31m{response.status_code} - Could not resolve injection with {data}, found error on response - {[r not in response.text for r in ('ERROR:', 'Access dennied:', 'Authentication failed')]}\033[0m")
+            logging.error(f"\033[1;31m{response.status_code} - Could not resolve injection with {data}, found error on response\033[0m")
             return None
 
     def http_request_inject(self, method, url, data=None):

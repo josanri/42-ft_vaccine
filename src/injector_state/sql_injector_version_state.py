@@ -1,6 +1,6 @@
 import logging
 
-from src.injector_state.sql_injector_database_names import SQLInjectorGetDatabaseNames
+from src.injector_state.sql_injector_schema_name import SQLInjectorGetSchemaNames
 from src.injector_state.sql_injector_state import SQLInjectorState
 from src.sql_injection_builder import SQLInjectionBuilder
 from src.engines.sql_injection_engine import SQLInjectionEngine
@@ -15,7 +15,7 @@ class SQLInjectorGetVersionState(SQLInjectorState):
         return True
 
     def next(self):
-        self.sql_injector.state = SQLInjectorGetDatabaseNames(self.sql_injector, self.engine)
+        self.sql_injector.state = SQLInjectorGetSchemaNames(self.sql_injector, self.engine)
         return self.sql_injector.state
 
     def inject(self, action, input_chosen, inputs):
