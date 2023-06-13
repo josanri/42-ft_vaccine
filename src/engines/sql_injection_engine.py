@@ -2,8 +2,8 @@ from abc import ABC
 
 
 class SQLInjectionEngine(ABC):
-    injection_prefix = "z#-+"
-    injection_suffix = "+-#z"
+    injection_prefix = "zzaa"
+    injection_suffix = "aazz"
 
     def __init__(self) -> None:
         pass
