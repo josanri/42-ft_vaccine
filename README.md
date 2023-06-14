@@ -26,8 +26,14 @@ The tool has some storage file for the data, if it does not exist it will be cre
 ## Prerequisites
 
 - bs4~=0.0.1
-- beautifulsoup4~=4.12.2
+  - beautifulsoup4~=4.12.2
+    - soupsieve~2.4.1
+- lxml~=4.9.2
 - requests~=2.31.0
+  - certifi~=2023.5.7
+  - charset-normalizer~=3.1.0
+  - idna~=3.4
+  - urllib3~=2.0.2
 
 ## Usage
 
