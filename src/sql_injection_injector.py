@@ -11,13 +11,16 @@ class SQLInjector:
     def __init__(self, url, output_file, method) -> None:
         if output_file is None:
             self.output_file = "results.txt"
+        else:
+            self.output_file = output_file
         if method is None:
-            method = "get"
+            self.method = "get"
+        else:
+            self.method = method
         if method in SQLInjector.supported_methods:
             logging.basicConfig(filename=self.output_file, level=logging.INFO, format="%(message)s")
             self.url = url
             self.state = SQLInjectorDatabaseEngineState(self)
-            self.method = method
             self.forms = [form for form in FormSpider(url).form_info() if form.method == self.method]
         else:
             raise NotImplementedError(f"{method} method is not supported")
