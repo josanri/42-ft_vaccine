@@ -37,7 +37,7 @@ services:
 
   php:
     image: php-psql:8.0-fpm
-    container_name: startrek_payroll_php
+    container_name: startrek_payroll_php_pg
     restart: unless-stopped
     build:
       context: php
@@ -56,7 +56,7 @@ services:
 
   nginx:
     image: nginx:stable-alpine
-    container_name: startrek_payroll_nginx
+    container_name: startrek_payroll_nginx_pg
     restart: unless-stopped
     depends_on:
       - postgres

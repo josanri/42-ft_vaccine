@@ -38,7 +38,7 @@ services:
 
   php-mysql:
     image: php-mysql:8.1.19-fpm-alpine3.16
-    container_name: startrek_payroll_php
+    container_name: startrek_payroll_php_mysql
     restart: unless-stopped
     build:
       context: php
@@ -57,7 +57,7 @@ services:
 
   nginx-mysql:
     image: nginx:stable-alpine
-    container_name: startrek_payroll_nginx
+    container_name: startrek_payroll_nginx_mysql
     restart: unless-stopped
     depends_on:
       - mysql
